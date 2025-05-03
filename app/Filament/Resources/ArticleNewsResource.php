@@ -83,14 +83,7 @@ class ArticleNewsResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')->searchable(),
-
-                // Tables\Columns\TextColumn::make('is_featured')
-                //     ->badge()
-                //     ->color(fn(string $state): string => match ($state) {
-                //         'active' => 'success',
-                //         'not_active' => 'danger',
-                //     }),
-
+                Tables\Columns\TextColumn::make('category.name'),
                 Tables\Columns\ImageColumn::make('thumbnail'),
             ])
             ->filters([
