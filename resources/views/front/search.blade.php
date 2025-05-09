@@ -1,7 +1,6 @@
 @extends('front.master')
 @section('content')
-
-    <body class="font-[Poppins] pb-[83px]">
+    <body class="font-[Poppins]">
         <x-navbar />
 
         {{-- Category Section --}}
@@ -18,53 +17,53 @@
             @endforeach
         </nav>
 
-        {{-- News Section --}}
-        <section id="Category-result" class="max-w-[1130px] mx-auto flex items-center flex-col gap-[30px] mt-[70px]">
+        <section id="heading" class="max-w-[1130px] mx-auto flex items-center flex-col gap-[30px] mt-[70px]">
             <h1 class="text-4xl leading-[45px] font-bold text-center">
-                Explore Our <br />
-                {{ $category->name }} News
+                Explore Hot Trending <br />
+                Good News Today
             </h1>
+            <form action="{{ route('front.search') }}" method="GET">
+                <label for="search-bar"
+                    class="w-[500px] flex p-[12px_20px] transition-all duration-300 gap-[10px] ring-1 ring-[#E8EBF4] focus-within:ring-2 focus-within:ring-[#FF6B18] rounded-[50px] group">
+                    <div class="w-5 h-5 flex shrink-0">
+                        <img src="assets/images/icons/search-normal.svg" alt="icon" />
+                    </div>
+                    <input autocomplete="off" type="text" id="search-bar" name="keyword"
+                        placeholder="Search hot trendy news today..."
+                        class="appearance-none font-semibold placeholder:font-normal placeholder:text-[#A3A6AE] outline-none focus:ring-0 w-full" />
+                </label>
+            </form>
+        </section>
+        <section id="search-result"
+            class="max-w-[1130px] mx-auto flex items-start flex-col gap-[30px] mt-[70px] mb-[100px]">
+            <h2 class="text-[26px] leading-[39px] font-bold">Search Result: <span>{{ ucfirst($keyword) }}</span></h2>
             <div id="search-cards" class="grid grid-cols-3 gap-[30px]">
-                @forelse ($category->news as $news)
-                    <a href="{{ route('front.details', $news->slug) }}" class="card">
+                @forelse ($articles as $article)
+                    <a href="{{ route('front.details', $article->slug) }}" class="card">
                         <div
                             class="flex flex-col gap-4 p-[26px_20px] transition-all duration-300 ring-1 ring-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18] rounded-[20px] overflow-hidden bg-white">
                             <div class="thumbnail-container h-[200px] relative rounded-[20px] overflow-hidden">
                                 <div
                                     class="badge absolute left-5 top-5 bottom-auto right-auto flex p-[8px_18px] bg-white rounded-[50px]">
-                                    <p class="text-xs leading-[18px] font-bold">{{ $news->category->name }}</p>
+                                    <p class="text-xs leading-[18px] font-bold">{{ $article->category->name }}</p>
                                 </div>
-                                <img src="{{ Storage::url($news->thumbnail) }}" alt="thumbnail photo"
+                                <img src="{{ Storage::url($article->thumbnail) }}" alt="thumbnail photo"
                                     class="w-full h-full object-cover" />
                             </div>
                             <div class="flex flex-col gap-[6px]">
-                                <h3 class="text-lg leading-[27px] font-bold">{{ substr($news->name, 0, 50) }}</h3>
-                                <p class="text-sm leading-[21px] text-[#A3A6AE]">{{ $news->created_at->format('M d, Y') }}
+                                <h3 class="text-lg leading-[27px] font-bold">{{ substr($article->name, 0, 50) }}</h3>
+                                <p class="text-sm leading-[21px] text-[#A3A6AE]">
+                                    {{ $article->created_at->format('M d, Y') }}
                                 </p>
                             </div>
                         </div>
                     </a>
                 @empty
                     <p class="text-center text-lg font-bold text-[#FF6B18]">
-                        No news available in this category.
+                        No news available for this keyword.
                     </p>
                 @endforelse
-            </div>
-        </section>
 
-        {{-- Advertisement Section --}}
-        <section id="Advertisement" class="max-w-[1130px] mx-auto flex justify-center mt-[70px]">
-            <div class="flex flex-col gap-3 shrink-0 w-fit">
-                <a href="{{ $banner_ads->link }}" target="_blank">
-                    <div class="w-[900px] h-[120px] flex shrink-0 border border-[#EEF0F7] rounded-2xl overflow-hidden">
-                        <img src="{{ Storage::url($banner_ads->thumbnail) }}" class="object-cover w-full h-full"
-                            alt="ads" />
-                    </div>
-                </a>
-                <p class="font-medium text-sm leading-[21px] text-[#A3A6AE] flex gap-1">
-                    Our Advertisement <a href="#" class="w-[18px] h-[18px]"><img
-                            src="{{ asset('assets/images/icons/message-question.svg') }}" alt="icon" /></a>
-                </p>
             </div>
         </section>
     </body>
