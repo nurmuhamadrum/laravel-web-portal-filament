@@ -66,10 +66,10 @@ class FrontController extends Controller
         return view('front.details', compact('slug'));
     }
 
-    public function category($slug)
+    public function category(Category $category)
     {
-        // Logic for the category page
-        return view('front.category', compact('slug'));
+        $categories = Category::all();
+        return view('front.category', compact('category', 'categories'));
     }
 
     public function author($slug)
